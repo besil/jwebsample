@@ -6,7 +6,7 @@ import it.besil.jweb.app.answer.SuccessAnswer;
 import it.besil.jweb.app.handlers.JWebHandler;
 import it.besil.jweb.app.payloads.Payload;
 import it.besil.jweb.app.resources.HttpMethod;
-import it.besil.jweb.app.resources.JWebResource;
+import it.besil.jweb.app.resources.JWebController;
 import spark.Request;
 
 import java.util.Arrays;
@@ -18,8 +18,8 @@ import java.util.List;
 public class EchoApp extends JWebApp {
 
     @Override
-    public List<? extends JWebResource> getResources() {
-        return Arrays.asList(new JWebResource() {
+    public List<? extends JWebController> getControllers() {
+        return Arrays.asList(new JWebController() {
             public HttpMethod getMethod() {
                 return HttpMethod.get;
             }

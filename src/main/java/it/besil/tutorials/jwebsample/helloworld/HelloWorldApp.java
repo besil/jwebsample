@@ -6,7 +6,7 @@ import it.besil.jweb.app.answer.SuccessAnswer;
 import it.besil.jweb.app.handlers.JWebHandler;
 import it.besil.jweb.app.payloads.EmptyPayload;
 import it.besil.jweb.app.resources.HttpMethod;
-import it.besil.jweb.app.resources.JWebResource;
+import it.besil.jweb.app.resources.JWebController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +20,8 @@ public class HelloWorldApp extends JWebApp {
     private Logger log = LoggerFactory.getLogger(HelloWorldApp.class);
 
     @Override
-    public List<? extends JWebResource> getResources() {
-        return Arrays.asList(new JWebResource() {
+    public List<? extends JWebController> getControllers() {
+        return Arrays.asList(new JWebController() {
             public HttpMethod getMethod() {
                 return HttpMethod.get;
             }

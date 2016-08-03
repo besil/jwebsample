@@ -11,4 +11,5 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({BehaviouralEchoTest.class, BehaviouralHelloWorldTest.class})
 public class AllTests {
+
 }
