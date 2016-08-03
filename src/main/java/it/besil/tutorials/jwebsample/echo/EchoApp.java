@@ -16,7 +16,6 @@ import java.util.List;
  * Created by besil on 03/08/2016.
  */
 public class EchoApp extends JWebApp {
-
     @Override
     public List<? extends JWebController> getControllers() {
         return Arrays.asList(new JWebController() {
@@ -33,7 +32,6 @@ public class EchoApp extends JWebApp {
             }
         });
     }
-
 
     public static class EchoPayload implements Payload {
         private String message;

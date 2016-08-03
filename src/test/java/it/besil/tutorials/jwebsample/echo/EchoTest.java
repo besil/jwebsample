@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * Created by besil on 03/08/2016.
  */
-public class BehaviouralEchoTest extends AbstractBehaviouralTest {
+public class EchoTest extends AbstractBehaviouralTest {
 
     @Before
     public void init() {

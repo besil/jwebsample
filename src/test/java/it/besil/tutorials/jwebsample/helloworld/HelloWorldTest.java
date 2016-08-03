@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * Created by besil on 03/08/2016.
  */
-public class BehaviouralHelloWorldTest extends AbstractBehaviouralTest {
+public class HelloWorldTest extends AbstractBehaviouralTest {
     @Before
     public void prepare() throws Exception {
         addApp(new HelloWorldApp());
