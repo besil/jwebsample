@@ -29,7 +29,7 @@ public class EchoApp extends JWebApp {
             }
 
             public String getPath() {
-                return "/echo";
+                return "/api/echo";
             }
         });
     }

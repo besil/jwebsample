@@ -20,7 +20,7 @@ public class BehaviouralHelloWorldTest extends AbstractBehaviouralTest {
 
     @Test
     public void helloTest() throws UnirestException {
-        HttpResponse<JsonNode> resp = Unirest.get(getUrl("/hello"))
+        HttpResponse<JsonNode> resp = Unirest.get(getUrl("/api/hello"))
                 .asJson();
 
         Assert.assertEquals("hello world", resp.getBody().getObject().getString("message"));

@@ -21,7 +21,7 @@ public class BehaviouralEchoTest extends AbstractBehaviouralTest {
 
     @Test
     public void simpleTest() throws UnirestException {
-        HttpResponse<JsonNode> resp = Unirest.get(getUrl("/echo"))
+        HttpResponse<JsonNode> resp = Unirest.get(getUrl("/api/echo"))
                 .queryString("message", "ciao")
                 .asJson();
 

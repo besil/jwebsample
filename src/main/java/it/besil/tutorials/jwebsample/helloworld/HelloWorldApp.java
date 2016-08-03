@@ -31,7 +31,7 @@ public class HelloWorldApp extends JWebApp {
             }
 
             public String getPath() {
-                return "/hello";
+                return "/api/hello";
             }
         });
     }
