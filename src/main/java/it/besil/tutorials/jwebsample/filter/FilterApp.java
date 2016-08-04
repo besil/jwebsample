@@ -12,6 +12,7 @@ import it.besil.jweb.app.payloads.EmptyPayload;
 import it.besil.jweb.app.resources.HttpMethod;
 import it.besil.jweb.app.resources.JWebController;
 import spark.Request;
+import spark.Response;
 import spark.Service;
 
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public class FilterApp extends JWebApp {
             }
 
             public String getPath() {
-                return "/home";
+                return "/filter";
             }
         });
     }
@@ -50,7 +51,7 @@ public class FilterApp extends JWebApp {
             @Override
             public JWebFilterHandler getHandler(final Service http) {
                 return new JWebFilterHandler(http) {
-                    public Answer process(Request request) {
+                    public Answer process(Request request, Response response) {
                         if (!(request.queryParams().contains("user") && request.queryParams("user").equals("admin")))
                             return new ErrorAnswer("Not authorized");
                         return new SuccessAnswer("user", "authorized");
@@ -60,7 +61,7 @@ public class FilterApp extends JWebApp {
 
             @Override
             public String getPath() {
-                return "/home";
+                return "/filter";
             }
 
             @Override

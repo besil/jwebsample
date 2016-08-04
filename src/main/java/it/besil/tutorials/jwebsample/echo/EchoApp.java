@@ -28,7 +28,7 @@ public class EchoApp extends JWebApp {
             }
 
             public String getPath() {
-                return "/api/echo";
+                return "/echo";
             }
         });
     }
