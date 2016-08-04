@@ -23,27 +23,47 @@ An **handler** consumes a **Payload** and produce an **Answer**, according to th
 **Filters** are very similar to handlers, but they are executed _before_ or _after_ each request/response.
 
 ## Quickstart
-We will create a simple Echo Rest Server, with unit testing.
+We will create 2 apps: 
+1. _Echo server_: general usage of the library
+2. _Secret app_: for understanding filters
 
+All the examples uses anonymous inner classes.
 
+Our main will be like this:
 ``` java
 public static void main(String[] args) throws IOException {
-    JWebConfiguration conf = new JWebConfiguration();
-    JWebServer jweb = new JWebServer(conf);
-    jweb.addApp(new EchoApp());
-    // You can add here as many apps as you want
+JWebConfiguration conf = new JWebConfiguration();
+        JWebServer jweb = new JWebServer(conf);
+        jweb.addApp(new EchoApp());
+        jweb.addApp(new SecretApp());
 }
 ```
+
+### Echo server
+We will create a simple Echo Rest Server, with unit testing.
 
 The EchoApp is (about 60 lines of code, 3 classes):
 ``` java
 public class EchoApp extends JWebApp {
+    @Override
+    public List<? extends JWebController> getControllers() {
+        return Arrays.asList(new JWebController() {
+            public HttpMethod getMethod() {
+                return HttpMethod.get;
+            }
+
+            public JWebHandler getHandler() {
+                return new GetEchoHandler();
+            }
+
+            public String getPath() {
+                return "/echo";
+            }
+        });
+    }
+
     public static class EchoPayload implements Payload {
         private String message;
-
-        public EchoPayload() {
-
-        }
 
         public void init(Request req) {
             this.message = req.queryParams("message");
@@ -64,28 +84,14 @@ public class EchoApp extends JWebApp {
             return new SuccessAnswer("message", "Echo: " + ep.getMessage());
         }
     }
-
-    @Override
-        public List<? extends JWebController> getControllers() {
-            // Every app can be made by different controllers.
-            // Each controller must specify
-            // the method, the path where to bind and the handler
-            return Arrays.asList(new JWebController() {
-                public HttpMethod getMethod() {
-                    return HttpMethod.get;
-                }
-
-                public JWebHandler getHandler() {
-                    return new GetEchoHandler();
-                }
-
-                public String getPath() {
-                    return "/echo";
-                }
-            });
-        }
 }
 ```
+The controller defines the binding between the **GET** + **/hello** request and the **EchoHandler**,
+which contains the business logic.
+
+The handler consumes an **EchoPayload**, 
+which extracts the queryParameter _message_ from the requests, 
+and produces the echoed message.
 
 Run it, and open [localhost](http://localhost:4567/echo?message=hello). You will see your message echoed back.
 
@@ -106,4 +112,60 @@ public class EchoTest extends AbstractBehaviouralTest {
             resp.getBody().getObject().getString("message"));
     }
 }
+```
+
+The **AbstractBehaviouralTest** spawns a server on localhost.
+
+### Secret app
+This app shows the usage of filters, for allowing only certain users to access some resources.
+
+``` java
+public class SecretApp extends JWebApp {
+    @Override
+    public List<? extends JWebController> getControllers() {
+        return Arrays.asList(new JWebController() {
+            public HttpMethod getMethod() {
+                return HttpMethod.get;
+            }
+            
+            public JWebHandler getHandler() {
+                return new JWebHandler<EmptyPayload>(EmptyPayload.class) {
+                    @Override
+                    public Answer process(EmptyPayload p) {
+                        return new SuccessAnswer("secret", "secret data here");
+                    }
+                };
+            }
+            
+            public String getPath() {
+                return "/secret";
+            }
+        });
+    }
+
+    @Override
+    public List<? extends JWebFilter> getFilters() {
+        return Arrays.asList(new JWebFilter() {
+            @Override
+            public JWebFilterHandler getHandler(final Service http) {
+                return new JWebFilterHandler(http) {
+                    public Answer process(Request request, Response response) {
+                        if (!(request.queryParams().contains("user") && request.queryParams("user").equals("admin")))
+                            return new ErrorAnswer("Not authorized");
+                        return new SuccessAnswer("user", "authorized");
+                    }
+                };
+            }
+
+            @Override
+            public String getPath() {
+                return "/secret";
+            }
+
+            @Override
+            public FilterType getType() {
+                return FilterType.before;
+            }
+        });
+    }
 ```
