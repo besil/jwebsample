@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by besil on 03/08/2016.
  */
-public class FilterApp extends JWebApp {
+public class SecretApp extends JWebApp {
 
     @Override
     public List<? extends JWebController> getControllers() {
@@ -40,7 +40,7 @@ public class FilterApp extends JWebApp {
             }
 
             public String getPath() {
-                return "/filter";
+                return "/secret";
             }
         });
     }
@@ -61,7 +61,7 @@ public class FilterApp extends JWebApp {
 
             @Override
             public String getPath() {
-                return "/filter";
+                return "/secret";
             }
 
             @Override

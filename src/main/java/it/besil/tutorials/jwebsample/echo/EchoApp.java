@@ -36,10 +36,6 @@ public class EchoApp extends JWebApp {
     public static class EchoPayload implements Payload {
         private String message;
 
-        public EchoPayload() {
-
-        }
-
         public void init(Request req) {
             this.message = req.queryParams("message");
         }
