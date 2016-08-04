@@ -1,0 +1,4 @@
+# Hello route
+/hello         templates/hello/hello.html
+# Echo route
+/echo          templates/echo/echo.html
