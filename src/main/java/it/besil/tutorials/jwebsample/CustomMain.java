@@ -17,9 +17,13 @@ public class CustomMain {
         JWebConfiguration conf = new JWebConfiguration();
         JWebServer jweb = new JWebServer(conf);
 
+        // By the library
         jweb.addApp(new DynamicContentApp("mapping"));
+
+        // First demo
+        jweb.addApp(new EchoApp());
+        // Second demo
         jweb.addApp(new SecretApp());
         jweb.addApp(new HelloWorldApp());
-        jweb.addApp(new EchoApp());
     }
 }
