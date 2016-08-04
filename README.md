@@ -169,3 +169,8 @@ public class SecretApp extends JWebApp {
         });
     }
 ```
+
+The controller defines a very simple logic, which shows the secret data.
+
+In the **FilterHandler** you have access to raw Request and Response objects.
+Filters return Error or Success answers, which blocks or not the client navigation.
