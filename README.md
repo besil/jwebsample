@@ -22,8 +22,102 @@ An **handler** consumes a **Payload** and produce an **Answer**, according to th
 
 **Filters** are very similar to handlers, but they are executed _before_ or _after_ each request/response.
 
-## Quickstart
-We will create 2 apps: 
+## Built in apps
+By default, jweb includes some apps out-of-the-box.
+
+### DynamicContentApp
+This app is very simple: it maps a json produced by an endpoint and
+maps it to the client requested format (by _Accept_ header).
+Right now, only **json** and **HTML** are supported.
+
+Your controller will always return an _Answer_ object, which by default is translated into a json.
+
+**DynamicContentApp** takes the json object produced, and apply an HTML templated, dynamically rendering
+the json key-values inside the template. 
+The template engine used is [Jinjava](http://product.hubspot.com/blog/jinjava-a-jinja-for-your-java);
+
+All you need to do in order to use the app is _adding it to the server_
+``` java
+JWebConfiguration conf = new JWebConfiguration();
+JWebServer jweb = new JWebServer(conf);
+jweb.addApp(new DynamicContentApp(conf, "mapping"));
+```
+
+and put a file named _mapping_ into your resource folder. An example is
+``` java
+# Hello route
+/hello         templates/hello/hello.html
+# Echo route
+/echo          templates/echo/echo.html
+# Login logout example
+/login         templates/loginlogout/login.html
+/logout        templates/loginlogout/logout.html
+/api/home      templates/loginlogout/home.html
+```
+Every time the route **/hello** is hit and the request header contains
+**Accept: text/html**, the json produced by the _/hello_ endpoint is mapped
+to the _hello.html_ content.
+
+### SessionManagementApp
+This app is very useful for managing user sessions.
+Sessions details are configurable from the _jweb.properties_ file.
+
+In order to start using this app, you must add it in your server:
+``` java
+JWebConfiguration conf = new JWebConfiguration();
+JWebServer jweb = new JWebServer(conf);
+jweb.addApp(new SessionManagerApp(conf, "/api/*"));
+```
+
+The constructor takes a string argument (_"/api/*"_), which means
+that all endpoints starting with _/api/_ will be accessible 
+only for logged in users.
+
+Don't forget to add the configuration in the _jwebserver.properties_ file:
+``` java
+### Session App
+session.db.url=jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
+session.db.user=admin
+session.db.password=admin
+session.timeout.duration=3600
+session.cookie.name=jwebtoken
+```
+
+Using this configuration, sessions will be persisted in memory, which can be good.
+
+To create session, you have to instantiate in your code the **SessionManager** object, which provides
+utility methods to create, retrieve or delete a session from the client.
+Session is stored using cookies.
+
+So, your login handler could look like this:
+``` java
+new JWebHandler<LoginPayload>(LoginPayload.class) {
+@Override
+public Answer process(LoginPayload lp) {
+    String userid = lp.getUserid();
+    String password = lp.getPassword();
+    try {
+        if (userid.equals("admin") && password.equals("password")) {
+            try {
+                new SessionManager(getJWebConf()).createSession(lp.getRequest(), lp.getResponse(), userid);
+            } catch (Exception e) {
+                log.warn("Error creating session");
+                e.printStackTrace();
+            }
+            log.debug("User " + userid + " succesfully logged in");
+            return new SuccessAnswer("login", "succesful");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return new ErrorAnswer("login error");
+}
+```
+
+Please find the complete example in the src folder
+
+## Quickstart - write your own web apps
+We will create some apps: 
 1. _Echo server_: general usage of the library
 2. _Secret app_: for understanding filters
 
