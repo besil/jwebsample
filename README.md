@@ -118,7 +118,9 @@ Please find the complete example in the src folder
 
 ## Quickstart - write your own web apps
 We will create some apps: 
+
 1. _Echo server_: general usage of the library
+
 2. _Secret app_: for understanding filters
 
 All the examples uses anonymous inner classes.
