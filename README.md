@@ -32,9 +32,9 @@ Right now, only **json** and **HTML** are supported.
 
 Your controller will always return an _Answer_ object, which by default is translated into a json.
 
-**DynamicContentApp** takes the json object produced, and apply an HTML templated, dynamically rendering
+**DynamicContentApp** takes the json object produced, and apply an HTML template, dynamically rendering
 the json key-values inside the template. 
-The template engine used is [Jinjava](http://product.hubspot.com/blog/jinjava-a-jinja-for-your-java);
+The template engine used is [Jinjava](http://product.hubspot.com/blog/jinjava-a-jinja-for-your-java).
 
 All you need to do in order to use the app is _adding it to the server_
 ``` java
@@ -56,7 +56,7 @@ and put a file named _mapping_ into your resource folder. An example is
 ```
 Every time the route **/hello** is hit and the request header contains
 **Accept: text/html**, the json produced by the _/hello_ endpoint is mapped
-to the _hello.html_ content.
+to the _hello.html_ content. Otherwise, json is produced.
 
 ### SessionManagementApp
 This app is very useful for managing user sessions.
