@@ -20,7 +20,7 @@ public class CustomMain {
         JWebServer jweb = new JWebServer(conf);
 
         // By the library
-        jweb.addApp(new DynamicContentApp("mapping"));
+        jweb.addApp(new DynamicContentApp(conf, "mapping"));
         jweb.addApp(new SessionManagerApp(conf, "/api/*"));
 
         // First demo

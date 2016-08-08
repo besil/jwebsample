@@ -21,17 +21,16 @@ import java.util.List;
  * Created by besil on 08/08/2016.
  */
 public class LoginLogoutExampleApp extends JWebApp {
-    private final JWebConfiguration conf;
     private Logger log = LoggerFactory.getLogger(LoginLogoutExampleApp.class);
 
     public LoginLogoutExampleApp(JWebConfiguration conf) {
-        this.conf = conf;
+        super(conf);
     }
 
     @Override
     public List<? extends JWebController> getControllers() {
         return Arrays.asList(
-                new JWebController() {
+                new JWebController(getJWebConf()) {
                     @Override
                     public HttpMethod getMethod() {
                         return HttpMethod.post;
@@ -47,7 +46,7 @@ public class LoginLogoutExampleApp extends JWebApp {
                                 try {
                                     if (userid.equals("admin") && password.equals("password")) {
                                         try {
-                                            new SessionManager(conf).createSession(lp.getRequest(), lp.getResponse(), userid);
+                                            new SessionManager(getJWebConf()).createSession(lp.getRequest(), lp.getResponse(), userid);
                                         } catch (Exception e) {
                                             log.warn("Error creating session");
                                             e.printStackTrace();
@@ -68,7 +67,7 @@ public class LoginLogoutExampleApp extends JWebApp {
                         return "/login";
                     }
                 },
-                new JWebController() {
+                new JWebController(getJWebConf()) {
                     @Override
                     public HttpMethod getMethod() {
                         return HttpMethod.get;
@@ -89,7 +88,7 @@ public class LoginLogoutExampleApp extends JWebApp {
                         return "/api/home";
                     }
                 },
-                new JWebController() {
+                new JWebController(getJWebConf()) {
                     @Override
                     public HttpMethod getMethod() {
                         return HttpMethod.get;
@@ -101,7 +100,7 @@ public class LoginLogoutExampleApp extends JWebApp {
                             @Override
                             public Answer process(LogoutPayload lp) {
                                 try {
-                                    new SessionManager(conf).invalidateSession(lp.getRequest(), lp.getResponse());
+                                    new SessionManager(getJWebConf()).invalidateSession(lp.getRequest(), lp.getResponse());
                                     return new SuccessAnswer("logout", "succesful");
                                 } catch (SQLException e) {
                                     e.printStackTrace();
