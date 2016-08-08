@@ -2,3 +2,7 @@
 /hello         templates/hello/hello.html
 # Echo route
 /echo          templates/echo/echo.html
+# Login logout example
+/login         templates/loginlogout/login.html
+/logout        templates/loginlogout/logout.html
+/api/home      templates/loginlogout/home.html

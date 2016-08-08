@@ -8,6 +8,7 @@ import it.besil.jweb.app.payloads.Payload;
 import it.besil.jweb.app.resources.HttpMethod;
 import it.besil.jweb.app.resources.JWebController;
 import spark.Request;
+import spark.Response;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +37,7 @@ public class EchoApp extends JWebApp {
     public static class EchoPayload implements Payload {
         private String message;
 
-        public void init(Request req) {
+        public void init(Request req, Response resp) {
             this.message = req.queryParams("message");
         }
 

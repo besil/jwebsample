@@ -1,0 +1,23 @@
+<html>
+<body>
+Welcome user
+
+<button onclick="dologout()">Logout</button>
+
+<script type="text/javascript">
+function dologout() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/logout", true);
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == XMLHttpRequest.DONE) {
+        console.log(xhttp.responseText);
+        window.location.replace("/login");
+    }
+  }
+  xhttp.send();
+}
+
+</script>
+
+</body>
+</html>

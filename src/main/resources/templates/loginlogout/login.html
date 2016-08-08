@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<body>
+
+
+<p>Userid (admin): </p><input type="text" value="admin" id="userid" name="userid">
+<p>Password (password): </p><input type="password" value="password" id="password" name="password">
+<button onclick="dologin()">Submit</button>
+
+
+<script type="text/javascript">
+function dologin() {
+  console.log("Submitting");
+  var userid = "admin";
+  var pass = "password";
+  console.log(userid);
+  console.log(pass);
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "/login", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == XMLHttpRequest.DONE) {
+        console.log(xhttp.responseText);
+        window.location.replace("/api/home");
+    }
+  }
+  var r = xhttp.send("userid="+userid+"&password="+pass);
+}
+
+</script>
+
+</body>
+</html>
