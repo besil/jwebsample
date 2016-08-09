@@ -20,10 +20,10 @@ public class FilterTest extends AbstractBehaviouralTest {
 
     @Test
     public void filterTest() throws UnirestException {
-        HttpResponse<JsonNode> home = Unirest.get(getUrl("/home")).asJson();
+        HttpResponse<JsonNode> home = Unirest.get(getUrl("/secret")).asJson();
         Assert.assertEquals("Not authorized", home.getBody().getObject().get("error"));
 
-        home = Unirest.get(getUrl("/home"))
+        home = Unirest.get(getUrl("/secret"))
                 .queryString("user", "admin")
                 .asJson();
         Assert.assertEquals("secret data here", home.getBody().getObject().get("secret"));
