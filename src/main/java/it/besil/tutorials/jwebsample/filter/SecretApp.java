@@ -11,6 +11,7 @@ import it.besil.jweb.app.handlers.JWebHandler;
 import it.besil.jweb.app.payloads.EmptyPayload;
 import it.besil.jweb.app.resources.HttpMethod;
 import it.besil.jweb.app.resources.JWebController;
+import it.besil.jweb.server.conf.JWebConfiguration;
 import spark.Request;
 import spark.Response;
 import spark.Service;
@@ -23,9 +24,13 @@ import java.util.List;
  */
 public class SecretApp extends JWebApp {
 
+    public SecretApp(JWebConfiguration jwebConf) {
+        super(jwebConf);
+    }
+
     @Override
     public List<? extends JWebController> getControllers() {
-        return Arrays.asList(new JWebController() {
+        return Arrays.asList(new JWebController(getJWebConf()) {
             public HttpMethod getMethod() {
                 return HttpMethod.get;
             }

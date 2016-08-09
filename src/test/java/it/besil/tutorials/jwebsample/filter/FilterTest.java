@@ -15,7 +15,7 @@ import org.junit.Test;
 public class FilterTest extends AbstractBehaviouralTest {
     @Before
     public void prepare() {
-        addApp(new SecretApp());
+        addApp(new SecretApp(getJWebConf()));
     }
 
     @Test

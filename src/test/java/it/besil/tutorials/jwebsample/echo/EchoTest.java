@@ -16,7 +16,7 @@ public class EchoTest extends AbstractBehaviouralTest {
 
     @Before
     public void init() {
-        this.addApp(new EchoApp());
+        this.addApp(new EchoApp(getJWebConf()));
     }
 
     @Test

@@ -24,12 +24,12 @@ public class CustomMain {
         jweb.addApp(new SessionManagerApp(conf, "/api/*"));
 
         // First demo
-        jweb.addApp(new EchoApp());
+        jweb.addApp(new EchoApp(conf));
         // Second demo
-        jweb.addApp(new SecretApp());
+        jweb.addApp(new SecretApp(conf));
         // Login Logout example
         jweb.addApp(new LoginLogoutExampleApp(conf));
 
-        jweb.addApp(new HelloWorldApp());
+        jweb.addApp(new HelloWorldApp(conf));
     }
 }

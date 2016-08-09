@@ -15,7 +15,7 @@ import org.junit.Test;
 public class HelloWorldTest extends AbstractBehaviouralTest {
     @Before
     public void prepare() throws Exception {
-        addApp(new HelloWorldApp());
+        addApp(new HelloWorldApp(getJWebConf()));
     }
 
     @Test

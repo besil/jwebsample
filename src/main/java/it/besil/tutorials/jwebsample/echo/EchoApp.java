@@ -7,6 +7,7 @@ import it.besil.jweb.app.handlers.JWebHandler;
 import it.besil.jweb.app.payloads.Payload;
 import it.besil.jweb.app.resources.HttpMethod;
 import it.besil.jweb.app.resources.JWebController;
+import it.besil.jweb.server.conf.JWebConfiguration;
 import spark.Request;
 import spark.Response;
 
@@ -17,9 +18,13 @@ import java.util.List;
  * Created by besil on 03/08/2016.
  */
 public class EchoApp extends JWebApp {
+    public EchoApp(JWebConfiguration jwebConf) {
+        super(jwebConf);
+    }
+
     @Override
     public List<? extends JWebController> getControllers() {
-        return Arrays.asList(new JWebController() {
+        return Arrays.asList(new JWebController(getJWebConf()) {
             public HttpMethod getMethod() {
                 return HttpMethod.get;
             }
