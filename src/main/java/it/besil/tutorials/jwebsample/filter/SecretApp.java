@@ -28,8 +28,6 @@ public class SecretApp extends JWebApp {
         super(jwebConf);
     }
 
-
-
     @Override
     public List<? extends JWebFilter> getFilters() {
         return Arrays.asList(new JWebFilter() {
@@ -83,29 +81,5 @@ public class SecretApp extends JWebApp {
             super(SUCCESS);
             this.message = message;
         }
-    }    @Override
-    public List<? extends JWebFilter> getFilters() {
-        return Arrays.asList(new JWebFilter() {
-            @Override
-            public JWebFilterHandler getHandler(final Service http) {
-                return new JWebFilterHandler(http) {
-                    public Answer process(Request request, Response response) {
-                        if (!(request.queryParams().contains("user") && request.queryParams("user").equals("admin")))
-                            return new ErrorAnswer("Not authorized");
-                        return new SuccessAnswer("user authorized");
-                    }
-                };
-            }
-
-            @Override
-            public String getPath() {
-                return "/secret";
-            }
-
-            @Override
-            public FilterType getType() {
-                return FilterType.before;
-            }
-        });
     }
 }
