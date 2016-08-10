@@ -1,10 +1,10 @@
 package it.besil.tutorials.jwebsample.loginlogout;
 
 import it.besil.jweb.app.JWebApp;
-import it.besil.jweb.app.answer.MessageAnswer;
+import it.besil.jweb.app.answer.EmptyAnswer;
 import it.besil.jweb.app.commons.session.SessionManager;
+import it.besil.jweb.app.commons.session.SessionPayload;
 import it.besil.jweb.app.handlers.JWebHandler;
-import it.besil.jweb.app.payloads.EmptyPayload;
 import it.besil.jweb.app.resources.HttpMethod;
 import it.besil.jweb.app.resources.JWebController;
 import it.besil.jweb.server.conf.JWebConfiguration;
@@ -36,26 +36,27 @@ public class LoginLogoutExampleApp extends JWebApp {
 
                     @Override
                     public JWebHandler getHandler() {
-                        return new JWebHandler<LoginPayload, AuthMessage>(LoginPayload.class, AuthMessage.class) {
+                        return new JWebHandler<LoginPayload, AuthAnswer>(LoginPayload.class, AuthAnswer.class) {
                             @Override
-                            public AuthMessage process(LoginPayload lp) {
+                            public AuthAnswer process(LoginPayload lp) {
                                 String userid = lp.getUserid();
                                 String password = lp.getPassword();
                                 try {
                                     if (userid.equals("admin") && password.equals("password")) {
                                         try {
-                                            new SessionManager(getJWebConf()).createSession(lp.getRequest(), lp.getResponse(), userid);
+                                            SessionManager sm = new SessionManager(getJWebConf());
+                                            sm.createSession(lp.getRequest(), lp.getResponse(), userid);
                                         } catch (Exception e) {
                                             log.warn("Error creating session");
                                             e.printStackTrace();
                                         }
                                         log.debug("User " + userid + " succesfully logged in");
-                                        return new AuthMessage("login succesful");
+                                        return new AuthAnswer("login succesful");
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                return new AuthMessage("login error");
+                                return new AuthAnswer("login error");
                             }
                         };
                     }
@@ -73,10 +74,10 @@ public class LoginLogoutExampleApp extends JWebApp {
 
                     @Override
                     public JWebHandler getHandler() {
-                        return new JWebHandler<EmptyPayload, AuthMessage>(EmptyPayload.class, AuthMessage.class) {
+                        return new JWebHandler<SessionPayload, AuthAnswer>(SessionPayload.class, AuthAnswer.class) {
                             @Override
-                            public AuthMessage process(EmptyPayload p) {
-                                return new AuthMessage("welcome logged user");
+                            public AuthAnswer process(SessionPayload p) {
+                                return new AuthAnswer(p.getSessionId());
                             }
                         };
                     }
@@ -94,16 +95,16 @@ public class LoginLogoutExampleApp extends JWebApp {
 
                     @Override
                     public JWebHandler getHandler() {
-                        return new JWebHandler<LogoutPayload, AuthMessage>(LogoutPayload.class, AuthMessage.class) {
+                        return new JWebHandler<LogoutPayload, AuthAnswer>(LogoutPayload.class, AuthAnswer.class) {
                             @Override
-                            public AuthMessage process(LogoutPayload lp) {
+                            public AuthAnswer process(LogoutPayload lp) {
                                 try {
                                     new SessionManager(getJWebConf()).invalidateSession(lp.getRequest(), lp.getResponse());
-                                    return new AuthMessage("logout succesful");
+                                    return new AuthAnswer("logout succesful");
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
-                                return new AuthMessage("logout error");
+                                return new AuthAnswer("logout error");
                             }
                         };
                     }
@@ -116,10 +117,19 @@ public class LoginLogoutExampleApp extends JWebApp {
         );
     }
 
-    public static class AuthMessage extends MessageAnswer {
+    public static class AuthAnswer extends EmptyAnswer {
+        private String mail;
 
-        public AuthMessage(String message) {
-            super(message);
+        public AuthAnswer(String mail) {
+            this.mail = mail;
+        }
+
+        public String getMail() {
+            return mail;
+        }
+
+        public void setMail(String mail) {
+            this.mail = mail;
         }
     }
 }
