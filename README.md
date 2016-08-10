@@ -25,6 +25,49 @@ An **handler** consumes a **Payload** and produce an **Answer**, according to th
 ## Built in apps
 By default, jweb includes some apps out-of-the-box.
 
+### RestDocsApp
+This app automatically produces JSON Schemas from your defined controller.
+
+This is a killer feature I've always been looking for: JSON schema is obtained scanning your classes automatically, foreach 
+controller you install on the server, without writing any file other than your Java code.
+
+In order to use it, just install the app
+``` java
+JWebConfiguration jwconf = new JWebConfiguration();
+JWebServer jweb = new JWebServer(jwconf);
+jweb.addApp(new RestDocsApp(jwconf));
+// Your apps here
+jweb.addApp(new SimpleApp(jwconf));
+```
+
+Go to _host:port_/**restdocs**, and you will get the index of all your endpoints:
+``` json
+{
+  "docs": [
+    "/restdocs/simple"
+  ],
+  "status": 200
+}
+```
+
+Go to the specific one: _host:port_/**restdocs/simple**
+``` json
+{
+  "path": "/simple",
+  "method": "GET",
+  "request": {
+    "simple": "String",
+    "secret": "int",
+    "apps": "List[String]"
+  },
+  "response": {
+    "num": "int",
+    "simple": "String"
+  },
+  "status": 200
+}
+```
+
 ### DynamicContentApp
 This app is very simple: it maps a json produced by an endpoint and
 maps it to the client requested format (by _Accept_ header).
