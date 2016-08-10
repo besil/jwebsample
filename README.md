@@ -1,7 +1,7 @@
 # JWeb examples
 Examples of [JWeb](http://besil.github.io/jweb/) framework.
 
-Details for installation inere [here](http://besil.github.io/jweb/).
+Details for installation are available [here](http://besil.github.io/jweb/).
 
 ## Description
 In JWeb, there are a very few concepts to remember: an **App** is the main block of your application. An App
@@ -18,7 +18,7 @@ incapsulates one or more **Controllers** and **Filters**.
 An **handler** consumes a **Payload** and produce an **Answer**, according to the business logic.
 
 **Payloads** are user defined POJO, which extracts parameters from http requests.
-**Answers** are simple objects with a status code and a map of key-values to return.
+**Answers** are user defined POJO too, which are by default rendered as a JSON object.
 
 **Filters** are very similar to handlers, but they are executed _before_ or _after_ each request/response.
 
