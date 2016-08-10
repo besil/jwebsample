@@ -1,7 +1,6 @@
 package it.besil.tutorials.jwebsample.helloworld;
 
 import it.besil.jweb.app.JWebApp;
-import it.besil.jweb.app.answer.Answer;
 import it.besil.jweb.app.answer.SuccessAnswer;
 import it.besil.jweb.app.handlers.JWebHandler;
 import it.besil.jweb.app.payloads.EmptyPayload;
@@ -41,15 +40,15 @@ public class HelloWorldApp extends JWebApp {
         });
     }
 
-    public class HelloWorldHandler extends JWebHandler<EmptyPayload> {
+    public class HelloWorldHandler extends JWebHandler<EmptyPayload, SuccessAnswer> {
         public HelloWorldHandler() {
-            super(EmptyPayload.class);
+            super(EmptyPayload.class, SuccessAnswer.class);
         }
 
         @Override
-        public Answer process(EmptyPayload payload) {
+        public SuccessAnswer process(EmptyPayload payload) {
             log.info("Hit /hello");
-            return new SuccessAnswer("message", "hello world");
+            return new SuccessAnswer("hello world");
         }
     }
 }

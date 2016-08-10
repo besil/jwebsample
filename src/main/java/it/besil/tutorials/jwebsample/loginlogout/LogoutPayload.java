@@ -1,5 +1,6 @@
 package it.besil.tutorials.jwebsample.loginlogout;
 
+import it.besil.jweb.app.commons.restdocs.NoRestDocs;
 import it.besil.jweb.app.payloads.Payload;
 import spark.Request;
 import spark.Response;
@@ -8,7 +9,9 @@ import spark.Response;
  * Created by besil on 08/08/2016.
  */
 public class LogoutPayload implements Payload {
+    @NoRestDocs
     private Request request;
+    @NoRestDocs
     private Response response;
 
     public void init(Request req, Response resp) {

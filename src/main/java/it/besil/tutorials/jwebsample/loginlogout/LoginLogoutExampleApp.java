@@ -2,8 +2,6 @@ package it.besil.tutorials.jwebsample.loginlogout;
 
 import it.besil.jweb.app.JWebApp;
 import it.besil.jweb.app.answer.Answer;
-import it.besil.jweb.app.answer.ErrorAnswer;
-import it.besil.jweb.app.answer.SuccessAnswer;
 import it.besil.jweb.app.commons.session.SessionManager;
 import it.besil.jweb.app.handlers.JWebHandler;
 import it.besil.jweb.app.payloads.EmptyPayload;
@@ -38,9 +36,9 @@ public class LoginLogoutExampleApp extends JWebApp {
 
                     @Override
                     public JWebHandler getHandler() {
-                        return new JWebHandler<LoginPayload>(LoginPayload.class) {
+                        return new JWebHandler<LoginPayload, AuthMessage>(LoginPayload.class, AuthMessage.class) {
                             @Override
-                            public Answer process(LoginPayload lp) {
+                            public AuthMessage process(LoginPayload lp) {
                                 String userid = lp.getUserid();
                                 String password = lp.getPassword();
                                 try {
@@ -52,12 +50,12 @@ public class LoginLogoutExampleApp extends JWebApp {
                                             e.printStackTrace();
                                         }
                                         log.debug("User " + userid + " succesfully logged in");
-                                        return new SuccessAnswer("login", "succesful");
+                                        return new AuthMessage("login succesful");
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                return new ErrorAnswer("login error");
+                                return new AuthMessage("login error");
                             }
                         };
                     }
@@ -75,10 +73,10 @@ public class LoginLogoutExampleApp extends JWebApp {
 
                     @Override
                     public JWebHandler getHandler() {
-                        return new JWebHandler<EmptyPayload>(EmptyPayload.class) {
+                        return new JWebHandler<EmptyPayload, AuthMessage>(EmptyPayload.class, AuthMessage.class) {
                             @Override
-                            public Answer process(EmptyPayload p) {
-                                return new SuccessAnswer("message", "welcome logged user");
+                            public AuthMessage process(EmptyPayload p) {
+                                return new AuthMessage("welcome logged user");
                             }
                         };
                     }
@@ -96,16 +94,16 @@ public class LoginLogoutExampleApp extends JWebApp {
 
                     @Override
                     public JWebHandler getHandler() {
-                        return new JWebHandler<LogoutPayload>(LogoutPayload.class) {
+                        return new JWebHandler<LogoutPayload, AuthMessage>(LogoutPayload.class, AuthMessage.class) {
                             @Override
-                            public Answer process(LogoutPayload lp) {
+                            public AuthMessage process(LogoutPayload lp) {
                                 try {
                                     new SessionManager(getJWebConf()).invalidateSession(lp.getRequest(), lp.getResponse());
-                                    return new SuccessAnswer("logout", "succesful");
+                                    return new AuthMessage("logout succesful");
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
-                                return new ErrorAnswer("logout error");
+                                return new AuthMessage("logout error");
                             }
                         };
                     }
@@ -116,5 +114,14 @@ public class LoginLogoutExampleApp extends JWebApp {
                     }
                 }
         );
+    }
+
+    public static class AuthMessage extends Answer {
+        private final String message;
+
+        public AuthMessage(String message) {
+            super(SUCCESS);
+            this.message = message;
+        }
     }
 }

@@ -1,6 +1,7 @@
 package it.besil.tutorials.jwebsample;
 
 import it.besil.jweb.app.commons.DynamicContentApp;
+import it.besil.jweb.app.commons.restdocs.RestDocsApp;
 import it.besil.jweb.app.commons.session.SessionManagerApp;
 import it.besil.jweb.server.JWebServer;
 import it.besil.jweb.server.conf.JWebConfiguration;
@@ -23,6 +24,8 @@ public class CustomMain {
         jweb.addApp(new DynamicContentApp(conf, "mapping"));
         jweb.addApp(new SessionManagerApp(conf, "/api/*"));
 
+        jweb.addApp(new RestDocsApp(conf));
+
         // First demo
         jweb.addApp(new EchoApp(conf));
         // Second demo
@@ -31,5 +34,6 @@ public class CustomMain {
         jweb.addApp(new LoginLogoutExampleApp(conf));
 
         jweb.addApp(new HelloWorldApp(conf));
+
     }
 }

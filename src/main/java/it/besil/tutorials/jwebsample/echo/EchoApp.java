@@ -1,7 +1,6 @@
 package it.besil.tutorials.jwebsample.echo;
 
 import it.besil.jweb.app.JWebApp;
-import it.besil.jweb.app.answer.Answer;
 import it.besil.jweb.app.answer.SuccessAnswer;
 import it.besil.jweb.app.handlers.JWebHandler;
 import it.besil.jweb.app.payloads.Payload;
@@ -51,14 +50,14 @@ public class EchoApp extends JWebApp {
         }
     }
 
-    public static class GetEchoHandler extends JWebHandler<EchoPayload> {
+    public static class GetEchoHandler extends JWebHandler<EchoPayload, SuccessAnswer> {
         public GetEchoHandler() {
-            super(EchoPayload.class);
+            super(EchoPayload.class, SuccessAnswer.class);
         }
 
         @Override
-        public Answer process(EchoPayload ep) {
-            return new SuccessAnswer("message", "Echo: " + ep.getMessage());
+        public SuccessAnswer process(EchoPayload ep) {
+            return new SuccessAnswer("Echo: " + ep.getMessage());
         }
     }
 }

@@ -28,27 +28,7 @@ public class SecretApp extends JWebApp {
         super(jwebConf);
     }
 
-    @Override
-    public List<? extends JWebController> getControllers() {
-        return Arrays.asList(new JWebController(getJWebConf()) {
-            public HttpMethod getMethod() {
-                return HttpMethod.get;
-            }
 
-            public JWebHandler getHandler() {
-                return new JWebHandler<EmptyPayload>(EmptyPayload.class) {
-                    @Override
-                    public Answer process(EmptyPayload p) {
-                        return new SuccessAnswer("secret", "secret data here");
-                    }
-                };
-            }
-
-            public String getPath() {
-                return "/secret";
-            }
-        });
-    }
 
     @Override
     public List<? extends JWebFilter> getFilters() {
@@ -59,7 +39,60 @@ public class SecretApp extends JWebApp {
                     public Answer process(Request request, Response response) {
                         if (!(request.queryParams().contains("user") && request.queryParams("user").equals("admin")))
                             return new ErrorAnswer("Not authorized");
-                        return new SuccessAnswer("user", "authorized");
+                        return new SuccessAnswer("user authorized");
+                    }
+                };
+            }
+
+            @Override
+            public String getPath() {
+                return "/secret";
+            }
+
+            @Override
+            public FilterType getType() {
+                return FilterType.before;
+            }
+        });
+    }    @Override
+    public List<? extends JWebController> getControllers() {
+        return Arrays.asList(new JWebController(getJWebConf()) {
+            public HttpMethod getMethod() {
+                return HttpMethod.get;
+            }
+
+            public JWebHandler getHandler() {
+                return new JWebHandler<EmptyPayload, SecretAnswer>(EmptyPayload.class, SecretAnswer.class) {
+                    @Override
+                    public SecretAnswer process(EmptyPayload p) {
+                        return new SecretAnswer("secret data here");
+                    }
+                };
+            }
+
+            public String getPath() {
+                return "/secret";
+            }
+        });
+    }
+
+    public static class SecretAnswer extends Answer {
+        private final String message;
+
+        public SecretAnswer(String message) {
+            super(SUCCESS);
+            this.message = message;
+        }
+    }    @Override
+    public List<? extends JWebFilter> getFilters() {
+        return Arrays.asList(new JWebFilter() {
+            @Override
+            public JWebFilterHandler getHandler(final Service http) {
+                return new JWebFilterHandler(http) {
+                    public Answer process(Request request, Response response) {
+                        if (!(request.queryParams().contains("user") && request.queryParams("user").equals("admin")))
+                            return new ErrorAnswer("Not authorized");
+                        return new SuccessAnswer("user authorized");
                     }
                 };
             }

@@ -1,5 +1,6 @@
 package it.besil.tutorials.jwebsample.loginlogout;
 
+import it.besil.jweb.app.commons.restdocs.NoRestDocs;
 import it.besil.jweb.app.payloads.Payload;
 import spark.Request;
 import spark.Response;
@@ -10,7 +11,9 @@ import spark.Response;
 public class LoginPayload implements Payload {
     private String userid;
     private String password;
+    @NoRestDocs
     private Request request;
+    @NoRestDocs
     private Response response;
 
     @Override
