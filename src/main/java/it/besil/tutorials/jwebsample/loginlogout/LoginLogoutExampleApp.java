@@ -1,7 +1,7 @@
 package it.besil.tutorials.jwebsample.loginlogout;
 
 import it.besil.jweb.app.JWebApp;
-import it.besil.jweb.app.answer.Answer;
+import it.besil.jweb.app.answer.MessageAnswer;
 import it.besil.jweb.app.commons.session.SessionManager;
 import it.besil.jweb.app.handlers.JWebHandler;
 import it.besil.jweb.app.payloads.EmptyPayload;
@@ -116,12 +116,10 @@ public class LoginLogoutExampleApp extends JWebApp {
         );
     }
 
-    public static class AuthMessage extends Answer {
-        private final String message;
+    public static class AuthMessage extends MessageAnswer {
 
         public AuthMessage(String message) {
-            super(SUCCESS);
-            this.message = message;
+            super(message);
         }
     }
 }

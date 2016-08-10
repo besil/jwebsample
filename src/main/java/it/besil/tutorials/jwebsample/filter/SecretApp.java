@@ -3,6 +3,7 @@ package it.besil.tutorials.jwebsample.filter;
 import it.besil.jweb.app.JWebApp;
 import it.besil.jweb.app.answer.Answer;
 import it.besil.jweb.app.answer.ErrorAnswer;
+import it.besil.jweb.app.answer.MessageAnswer;
 import it.besil.jweb.app.answer.SuccessAnswer;
 import it.besil.jweb.app.filter.FilterType;
 import it.besil.jweb.app.filter.JWebFilter;
@@ -74,12 +75,9 @@ public class SecretApp extends JWebApp {
         });
     }
 
-    public static class SecretAnswer extends Answer {
-        private final String message;
-
+    public static class SecretAnswer extends MessageAnswer {
         public SecretAnswer(String message) {
-            super(SUCCESS);
-            this.message = message;
+            super(message);
         }
     }
 }
