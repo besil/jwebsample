@@ -68,6 +68,8 @@ Go to the specific one: _host:port_/**restdocs/simple**
 }
 ```
 
+If you want to exclude a field from your answer, just use the ```@NoRestDocs``` annotation. 
+
 ### DynamicContentApp
 This app is very simple: it maps a json produced by an endpoint and
 maps it to the client requested format (by _Accept_ header).
