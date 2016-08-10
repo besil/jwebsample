@@ -1,14 +1,14 @@
 package it.besil.tutorials.jwebsample.loginlogout;
 
 import it.besil.jweb.app.commons.restdocs.NoRestDocs;
-import it.besil.jweb.app.payloads.Payload;
+import it.besil.jweb.app.commons.session.SessionPayload;
 import spark.Request;
 import spark.Response;
 
 /**
  * Created by besil on 08/08/2016.
  */
-public class LoginPayload implements Payload {
+public class LoginPayload extends SessionPayload {
     private String userid;
     private String password;
     @NoRestDocs
@@ -18,6 +18,7 @@ public class LoginPayload implements Payload {
 
     @Override
     public void init(Request req, Response response) {
+        super.init(req, response);
         this.userid = req.queryParams("userid") != null ? req.queryParams("userid") : "";
         this.password = req.queryParams("password") != null ? req.queryParams("password") : "";
         this.request = req;
