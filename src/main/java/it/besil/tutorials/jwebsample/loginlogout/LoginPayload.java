@@ -1,6 +1,6 @@
 package it.besil.tutorials.jwebsample.loginlogout;
 
-import it.besil.jweb.app.commons.restdocs.NoRestDocs;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.besil.jweb.app.commons.session.SessionPayload;
 import spark.Request;
 import spark.Response;
@@ -11,9 +11,9 @@ import spark.Response;
 public class LoginPayload extends SessionPayload {
     private String userid;
     private String password;
-    @NoRestDocs
+    @JsonIgnore
     private Request request;
-    @NoRestDocs
+    @JsonIgnore
     private Response response;
 
     @Override
