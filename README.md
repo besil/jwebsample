@@ -43,33 +43,161 @@ jweb.addApp(new SimpleApp(jwconf));
 Go to _host:port_/**restdocs**, and you will get the index of all your endpoints:
 ``` json
 {
-  "docs": [
-    "/restdocs/simple"
-  ],
-  "status": 200
+  "docs" : [ "/simple" ]
 }
 ```
 
 Go to the specific one: _host:port_/**restdocs/simple**
 ``` json
 {
-  "path": "/simple",
-  "method": "GET",
-  "request": {
-    "simple": "String",
-    "secret": "int",
-    "apps": "List[String]"
-  },
-  "response": {
-    "num": "int",
-    "simple": "String"
-  },
-  "status": 200
+  "path" : "/simple",
+  "schema" : [ {
+    "method" : "get",
+    "payloadSchema" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:it:besil:jweb:main:SimpleApp:SimplePayload",
+      "properties" : {
+        "simple" : {
+          "type" : "string"
+        },
+        "secret" : {
+          "type" : "integer"
+        },
+        "apps" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "date" : {
+          "type" : "integer",
+          "format" : "utc-millisec"
+        },
+        "numsofnums" : {
+          "type" : "array",
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    },
+    "answerSchema" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:it:besil:jweb:main:SimpleApp:SimpleAnswer",
+      "properties" : {
+        "simple" : {
+          "type" : "string"
+        },
+        "num" : {
+          "type" : "integer"
+        },
+        "brd" : {
+          "type" : "any"
+        },
+        "date" : {
+          "type" : "integer",
+          "format" : "utc-millisec"
+        },
+        "dates" : {
+          "type" : "array",
+          "items" : {
+            "type" : "integer",
+            "format" : "utc-millisec"
+          }
+        },
+        "readers" : {
+          "type" : "array",
+          "items" : {
+            "type" : "any"
+          }
+        },
+        "payloads" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "id" : "urn:jsonschema:it:besil:jweb:main:SimpleApp:SimplePayload",
+            "properties" : {
+              "simple" : {
+                "type" : "string"
+              },
+              "secret" : {
+                "type" : "integer"
+              },
+              "apps" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "date" : {
+                "type" : "integer",
+                "format" : "utc-millisec"
+              },
+              "numsofnums" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }, {
+    "method" : "post",
+    "payloadSchema" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:it:besil:jweb:main:SimpleApp:SimplePayload",
+      "properties" : {
+        "simple" : {
+          "type" : "string"
+        },
+        "secret" : {
+          "type" : "integer"
+        },
+        "apps" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "date" : {
+          "type" : "integer",
+          "format" : "utc-millisec"
+        },
+        "numsofnums" : {
+          "type" : "array",
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    },
+    "answerSchema" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:it:besil:jweb:app:answer:MessageAnswer",
+      "properties" : {
+        "message" : {
+          "type" : "string"
+        }
+      }
+    }
+  } ]
 }
 ```
 
 If you want to exclude a field from your answer, just use the ```@JsonIgnore``` annotation
-to the field you don't want to be mapped. 
+to the field you don't want to be documented here. 
 
 ### DynamicContentApp
 This app is very simple: it maps a json produced by an endpoint and
