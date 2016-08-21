@@ -68,7 +68,8 @@ Go to the specific one: _host:port_/**restdocs/simple**
 }
 ```
 
-If you want to exclude a field from your answer, just use the ```@NoRestDocs``` annotation. 
+If you want to exclude a field from your answer, just use the ```@JsonIgnore``` annotation
+to the field you don't want to be mapped. 
 
 ### DynamicContentApp
 This app is very simple: it maps a json produced by an endpoint and
@@ -159,7 +160,7 @@ public Answer process(LoginPayload lp) {
 }
 ```
 
-Please find the complete example in the src folder
+Please find the complete example in the **loginlogout** package
 
 ## Quickstart - write your own web apps
 We will create some apps: 
@@ -168,19 +169,17 @@ We will create some apps:
 
 2. _Secret app_: for understanding filters
 
-All the examples uses anonymous inner classes.
-
 Our main will be like this:
 ``` java
 public static void main(String[] args) throws IOException {
-JWebConfiguration conf = new JWebConfiguration();
-        JWebServer jweb = new JWebServer(conf);
-        jweb.addApp(new EchoApp());
-        jweb.addApp(new SecretApp());
+    JWebConfiguration conf = new JWebConfiguration();
+    JWebServer jweb = new JWebServer(conf);
+    jweb.addApp(new EchoApp());
+    jweb.addApp(new SecretApp());
 }
 ```
 
-### Echo server
+### Echo App
 We will create a simple Echo Rest Server, with unit testing.
 
 The EchoApp is (about 60 lines of code, 3 classes):
@@ -262,26 +261,9 @@ This app shows the usage of filters, for allowing only certain users to access s
 
 ``` java
 public class SecretApp extends JWebApp {
-    @Override
-    public List<? extends JWebController> getControllers() {
-        return Arrays.asList(new JWebController() {
-            public HttpMethod getMethod() {
-                return HttpMethod.get;
-            }
-            
-            public JWebHandler getHandler() {
-                return new JWebHandler<EmptyPayload>(EmptyPayload.class) {
-                    @Override
-                    public Answer process(EmptyPayload p) {
-                        return new SuccessAnswer("secret", "secret data here");
-                    }
-                };
-            }
-            
-            public String getPath() {
-                return "/secret";
-            }
-        });
+
+    public SecretApp(JWebConfiguration jwebConf) {
+        super(jwebConf);
     }
 
     @Override
@@ -293,7 +275,7 @@ public class SecretApp extends JWebApp {
                     public Answer process(Request request, Response response) {
                         if (!(request.queryParams().contains("user") && request.queryParams("user").equals("admin")))
                             return new ErrorAnswer("Not authorized");
-                        return new SuccessAnswer("user", "authorized");
+                        return new SuccessAnswer("user authorized");
                     }
                 };
             }
@@ -308,7 +290,34 @@ public class SecretApp extends JWebApp {
                 return FilterType.before;
             }
         });
+    }    @Override
+    public List<? extends JWebController> getControllers() {
+        return Arrays.asList(new JWebController(getJWebConf()) {
+            public HttpMethod getMethod() {
+                return HttpMethod.get;
+            }
+
+            public JWebHandler getHandler() {
+                return new JWebHandler<EmptyPayload, SecretAnswer>(EmptyPayload.class, SecretAnswer.class) {
+                    @Override
+                    public SecretAnswer process(EmptyPayload p) {
+                        return new SecretAnswer("secret data here");
+                    }
+                };
+            }
+
+            public String getPath() {
+                return "/secret";
+            }
+        });
     }
+
+    public static class SecretAnswer extends MessageAnswer {
+        public SecretAnswer(String message) {
+            super(message);
+        }
+    }
+}
 ```
 
 The controller defines a very simple logic, which shows the secret data.
