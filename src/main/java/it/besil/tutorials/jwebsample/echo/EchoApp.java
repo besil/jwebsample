@@ -42,11 +42,16 @@ public class EchoApp extends JWebApp {
         private String message;
 
         public void init(Request req, Response resp) {
-            this.message = req.queryParams("message");
+            Payload.super.init(req, resp);
+            System.out.println("This is how you call a default method implementation of an interface");
         }
 
         public String getMessage() {
             return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
         }
     }
 
