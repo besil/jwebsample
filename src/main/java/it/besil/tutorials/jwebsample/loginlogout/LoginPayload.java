@@ -19,8 +19,6 @@ public class LoginPayload extends SessionPayload {
     @Override
     public void init(Request req, Response response) {
         super.init(req, response);
-        this.userid = req.queryParams("userid") != null ? req.queryParams("userid") : "";
-        this.password = req.queryParams("password") != null ? req.queryParams("password") : "";
         this.request = req;
         this.response = response;
     }
