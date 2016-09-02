@@ -2,7 +2,7 @@ package it.besil.tutorials.jwebsample.echo;
 
 import it.besil.jweb.app.JWebApp;
 import it.besil.jweb.app.handlers.JWebHandler;
-import it.besil.jweb.app.protocol.answer.SuccessAnswer;
+import it.besil.jweb.app.protocol.answer.MessageAnswer;
 import it.besil.jweb.app.protocol.payloads.Payload;
 import it.besil.jweb.app.resources.HttpMethod;
 import it.besil.jweb.app.resources.JWebController;
@@ -55,14 +55,31 @@ public class EchoApp extends JWebApp {
         }
     }
 
-    public static class GetEchoHandler extends JWebHandler<EchoPayload, SuccessAnswer> {
+    public static class GetEchoHandler extends JWebHandler<EchoPayload, EchoAnswer> {
         public GetEchoHandler() {
-            super(EchoPayload.class, SuccessAnswer.class);
+            super(EchoPayload.class, EchoAnswer.class);
         }
 
         @Override
-        public SuccessAnswer process(EchoPayload ep) {
-            return new SuccessAnswer("Echo: " + ep.getMessage());
+        public EchoAnswer process(EchoPayload ep) {
+            return new EchoAnswer(ep.getMessage());
+        }
+    }
+
+    public static class EchoAnswer extends MessageAnswer {
+        String echo;
+
+        public EchoAnswer(String message) {
+            super(message);
+            this.echo = message;
+        }
+
+        public String getEcho() {
+            return echo;
+        }
+
+        public void setEcho(String echo) {
+            this.echo = echo;
         }
     }
 }
