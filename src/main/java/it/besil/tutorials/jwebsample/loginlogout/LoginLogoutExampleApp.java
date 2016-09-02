@@ -1,10 +1,10 @@
 package it.besil.tutorials.jwebsample.loginlogout;
 
 import it.besil.jweb.app.JWebApp;
-import it.besil.jweb.app.answer.EmptyAnswer;
 import it.besil.jweb.app.commons.session.SessionManager;
 import it.besil.jweb.app.commons.session.SessionPayload;
 import it.besil.jweb.app.handlers.JWebHandler;
+import it.besil.jweb.app.protocol.answer.EmptyAnswer;
 import it.besil.jweb.app.resources.HttpMethod;
 import it.besil.jweb.app.resources.JWebController;
 import it.besil.jweb.server.conf.JWebConfiguration;

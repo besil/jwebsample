@@ -1,15 +1,15 @@
 package it.besil.tutorials.jwebsample.filter;
 
 import it.besil.jweb.app.JWebApp;
-import it.besil.jweb.app.answer.Answer;
-import it.besil.jweb.app.answer.ErrorAnswer;
-import it.besil.jweb.app.answer.MessageAnswer;
-import it.besil.jweb.app.answer.SuccessAnswer;
 import it.besil.jweb.app.filter.FilterType;
 import it.besil.jweb.app.filter.JWebFilter;
 import it.besil.jweb.app.filter.JWebFilterHandler;
 import it.besil.jweb.app.handlers.JWebHandler;
-import it.besil.jweb.app.payloads.EmptyPayload;
+import it.besil.jweb.app.protocol.answer.Answer;
+import it.besil.jweb.app.protocol.answer.ErrorAnswer;
+import it.besil.jweb.app.protocol.answer.MessageAnswer;
+import it.besil.jweb.app.protocol.answer.SuccessAnswer;
+import it.besil.jweb.app.protocol.payloads.EmptyPayload;
 import it.besil.jweb.app.resources.HttpMethod;
 import it.besil.jweb.app.resources.JWebController;
 import it.besil.jweb.server.conf.JWebConfiguration;

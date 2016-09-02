@@ -1,9 +1,9 @@
 package it.besil.tutorials.jwebsample.echo;
 
 import it.besil.jweb.app.JWebApp;
-import it.besil.jweb.app.answer.SuccessAnswer;
 import it.besil.jweb.app.handlers.JWebHandler;
-import it.besil.jweb.app.payloads.Payload;
+import it.besil.jweb.app.protocol.answer.SuccessAnswer;
+import it.besil.jweb.app.protocol.payloads.Payload;
 import it.besil.jweb.app.resources.HttpMethod;
 import it.besil.jweb.app.resources.JWebController;
 import it.besil.jweb.server.conf.JWebConfiguration;

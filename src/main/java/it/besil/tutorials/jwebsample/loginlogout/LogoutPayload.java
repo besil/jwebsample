@@ -1,7 +1,7 @@
 package it.besil.tutorials.jwebsample.loginlogout;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import it.besil.jweb.app.payloads.Payload;
+import it.besil.jweb.app.protocol.payloads.Payload;
 import spark.Request;
 import spark.Response;
 
