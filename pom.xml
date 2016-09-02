@@ -78,7 +78,7 @@
         <dependency>
             <groupId>it.besil.web</groupId>
             <artifactId>jweb</artifactId>
-            <version>v1.4.0</version>
+            <version>v1.4.1</version>
         </dependency>
     </dependencies>
 
