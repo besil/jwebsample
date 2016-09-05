@@ -1,14 +1,14 @@
 package it.besil.tutorials.jwebsample.loginlogout;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import it.besil.jweb.app.commons.session.SessionPayload;
+import it.besil.jweb.app.protocol.payloads.queryparams.QueryParamSessionPayload;
 import spark.Request;
 import spark.Response;
 
 /**
  * Created by besil on 08/08/2016.
  */
-public class LoginPayload extends SessionPayload {
+public class LoginPayload extends QueryParamSessionPayload {
     private String userid;
     private String password;
     @JsonIgnore
