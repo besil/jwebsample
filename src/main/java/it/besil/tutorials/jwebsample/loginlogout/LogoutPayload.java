@@ -15,7 +15,7 @@ public class LogoutPayload implements Payload {
     private Response response;
 
     public void init(Request req, Response resp) {
-        Payload.super.init(req, resp);
+//        Payload.super.init(req, resp);
         this.request = req;
         this.response = resp;
     }
